@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+<h1>Edit a car:</h1>
+
+<p><%= car.name.manufacturer%>, <%= car.name.model%>, <%= car.year%>, <%= car.engine%>
+<p><%= car.description%></p>
+<img style="width: 150px; height: 150px" src="<%= car.image%>">
+
+<form method="POST" action="/cars/edit">
+    <input type="text" name="id" value="<%=id%>">
+    <input type="text" name="make" placeholder="Enter your car manufacturer..." value="<%=car.name.manufacturer%>">
+    <input type="text" name="model" placeholder="Enter your car model..." value="<%=car.name.model%>">
+    <input type="number" name="year" placeholder="Year of manufacturing..." value="<%=car.year%>">
+    <input type="text" name="engine" placeholder="Enter your car's engine specs..." value="<%=car.engine%>">
+    <textarea name="description" placeholder="description"><%=car.description%></textarea>
+    <input name="image" type="text" value="<%=car.image%>">
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

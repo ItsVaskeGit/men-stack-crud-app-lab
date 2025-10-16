@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All cars</title>
+</head>
+<body>
+<h1>All cars</h1>
+<% allCars.forEach((car) => { %>
+    <p><%= car.name.manufacturer%>, <%= car.name.model%>, <%= car.year%>, <%= car.engine%>
+        <a href="/cars/<%=car.id%>/edit">Edit</a>, <a href="/car/delete/<%= car.id%>">Delete</a>
+    <p><%= car.description%></p>
+    <img style="width: 150px; height: 150px" src="<%= car.image%>">
+<% }) %>
+</body>
+</html>

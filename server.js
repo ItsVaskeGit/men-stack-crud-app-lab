@@ -4,13 +4,13 @@ const car = require('./model/car.js');
 const mongo = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
+app.use(express.urlencoded({ extended: false }))
 
 async function connect() {
    await mongo.connect(process.env.MONGO_URI);
 }
 
 app.get("/" , (req, res) => {
-    const name = process.env.APP_NAME;
     res.render("index.ejs", { name: name });
 });
 
@@ -18,27 +18,31 @@ app.get("/car/new", (req, res) => {
     res.render("createCar.ejs");
 });
 
-app.get("/cars/:id/edit", (req, res) => {
-    res.render("updateCar.ejs", req.params.id);
+app.get("/cars/:id/edit", async (req, res) => {
+    res.render("updateCar.ejs", {id: req.params.id, car: await car.findById(req.params.id)});
 });
 
-app.get("/car/:id", (req, res) => {
-    res.render("deleteCar.ejs", req.params.id);
+app.get("/car/delete/:id", async (req, res) => {
+    let allCars = await car.find();
+
+    await deleteCar(req.params.id);
+
+    res.render("allCars.ejs", {allCars: allCars});
 });
 
 app.post('/create', (req, res) => {
-    const manufacturer = req.body.manufacturer;
+    const manufacturer = req.body.make;
     const model = req.body.model;
-    const year = Number(req.body.year);
+    const year = req.body.year;
     const engine = req.body.engine;
     const description = req.body.description;
     const image = req.body.image;
     createCar(manufacturer, model, year, engine, description, image).then(() => { console.log("Car successfully created.") });
 
-    res.render("created.ejs");
+    res.render("index.ejs");
 });
 
-app.put('/cars', (req, res) => {
+app.post('/cars/edit', (req, res) => {
     const id = req.body.id;
     const manufacturer = req.body.manufacturer;
     const model = req.body.model;
@@ -49,13 +53,14 @@ app.put('/cars', (req, res) => {
 
     updateCar(id, manufacturer, model, year, engine, description, image).then(() => { console.log("Car has been successfully updated.") })
 
-    res.render("updated.ejs");
+    res.render("index.ejs");
 });
 
-app.get('/cars', (req, res) => {
-    const allCars = car.find();
+app.get('/cars', async (req, res) => {
 
-    res.render("allCars.ejs", allCars);
+    let allCars = await car.find();
+
+    res.render("allCars.ejs",  {allCars: allCars});
 });
 
 app.get('/cars/:id', (req, res) => {
@@ -77,13 +82,13 @@ app.delete("/cars", (req, res) => {
 async function createCar(manufacturer, model, year, engine, description, image) {
     const createdCar = await car.create({
         name: {
-            manufacturer: manufacturer,
-            model: model
+            manufacturer,
+            model
         },
-        year: year,
-        engine: engine,
-        description: description,
-        image: image
+        year,
+        engine,
+        description,
+        image
     });
 
     console.log(createdCar);
@@ -109,11 +114,7 @@ async function deleteCar(id) {
     const carToDelete = await car.findById(id);
 
     if(carToDelete !== null) {
-        carToDelete.deleteOne();
-
-        console.log(carToDelete);
-    }else {
-        console.log("Car not found.");
+        await carToDelete.deleteOne();
     }
 }
 
