@@ -12,7 +12,7 @@
 <p><%= car.description%></p>
 <img style="width: 150px; height: 150px" src="<%= car.image%>">
 
-<form method="POST" action="/cars/edit">
+<form method="POST" action="/cars/edit?_method=PUT">
     <input type="text" name="id" value="<%=id%>">
     <input type="text" name="make" placeholder="Enter your car manufacturer..." value="<%=car.name.manufacturer%>">
     <input type="text" name="model" placeholder="Enter your car model..." value="<%=car.name.model%>">

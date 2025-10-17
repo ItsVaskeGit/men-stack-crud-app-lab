@@ -3,15 +3,17 @@ const app = express();
 const car = require('./model/car.js');
 const mongo = require('mongoose');
 const dotenv = require('dotenv');
+const methodOverride = require("method-override");
 dotenv.config();
 app.use(express.urlencoded({ extended: false }))
+app.use(methodOverride("_method"));
 
 async function connect() {
    await mongo.connect(process.env.MONGO_URI);
 }
 
 app.get("/" , (req, res) => {
-    res.render("index.ejs", { name: name });
+    res.render("index.ejs");
 });
 
 app.get("/car/new", (req, res) => {
@@ -22,7 +24,7 @@ app.get("/cars/:id/edit", async (req, res) => {
     res.render("updateCar.ejs", {id: req.params.id, car: await car.findById(req.params.id)});
 });
 
-app.get("/car/delete/:id", async (req, res) => {
+app.delete("/car/delete/:id", async (req, res) => {
     let allCars = await car.find();
 
     await deleteCar(req.params.id);
@@ -42,7 +44,7 @@ app.post('/create', (req, res) => {
     res.render("index.ejs");
 });
 
-app.post('/cars/edit', (req, res) => {
+app.put('/cars/edit', (req, res) => {
     const id = req.body.id;
     const manufacturer = req.body.manufacturer;
     const model = req.body.model;

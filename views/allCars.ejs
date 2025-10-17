@@ -9,7 +9,9 @@
 <h1>All cars</h1>
 <% allCars.forEach((car) => { %>
     <p><%= car.name.manufacturer%>, <%= car.name.model%>, <%= car.year%>, <%= car.engine%>
-        <a href="/cars/<%=car.id%>/edit">Edit</a>, <a href="/car/delete/<%= car.id%>">Delete</a>
+        <a href="/cars/<%=car.id%>/edit">Edit</a>, <form action="/car/delete/<%=car.id%>?_method=DELETE" method="POST">
+        <button type="submit">Delete</button>
+    </form>
     <p><%= car.description%></p>
     <img style="width: 150px; height: 150px" src="<%= car.image%>">
 <% }) %>
