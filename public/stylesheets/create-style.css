@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&display=swap");
+
+body {
+    font-family: "DM Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-top: 30px;
+}
+
+textarea {
+    margin-top: 30px;
+}
+
+button {
+    margin-top: 30px;
+}

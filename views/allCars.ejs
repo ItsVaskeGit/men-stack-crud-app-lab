@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All cars</title>
+    <link rel="stylesheet" href="/stylesheets/car-list-style.css">
 </head>
 <body>
 <h1>All cars</h1>
 <% allCars.forEach((car) => { %>
     <p><%= car.name.manufacturer%>, <%= car.name.model%>, <%= car.year%>, <%= car.engine%>
-        <a href="/cars/<%=car.id%>/edit">Edit</a>, <form action="/car/delete/<%=car.id%>?_method=DELETE" method="POST">
+        , <form action="/car/delete/<%=car.id%>?_method=DELETE" method="POST">
+        <button><a href="/cars/<%=car.id%>/edit">Edit</a></button>
         <button type="submit">Delete</button>
     </form>
     <p><%= car.description%></p>

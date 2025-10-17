@@ -7,6 +7,8 @@ const methodOverride = require("method-override");
 dotenv.config();
 app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride("_method"));
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
 
 async function connect() {
    await mongo.connect(process.env.MONGO_URI);
